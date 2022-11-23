@@ -2,50 +2,55 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using Helper.SQLite_Database_Helper;
-
-using System.IO;
+using App_Etec_ToDoList.Helper;
+using System.IO; // Biblioteca que permite o uso do Path.Combine().
 
 namespace App_Etec_ToDoList
 {
 
-    static SQLite_Database_Helper database_connection;
-
-    public static SQLite_Database_Helper database_access_manager
+    public partial class App : Application
     {
 
-        get
+        /* Definimos a variável abaixo como estática, pois ela única, ou seja, é uma variável (Do banco de dados.)
+         * para toda a aplicação, e, se ela é única, não precisa ser instanciada toda vez que for usada, portanto,
+         * ela é estática. */
+
+        static SQLite_Database_Helper arquivo_database;
+
+        public static SQLite_Database_Helper gerenciador_acesso
         {
 
-            if(this.database_connection == null)
+            get
             {
 
-                // Criando uma variável de caminho ao Banco de Dados.
+                // Condição que será acionada caso o arquivo do banco de dados ainda não exista.
 
-                string caminho_arquivo = Path.Combine(
+                if(arquivo_database == null)
+                {
 
-                    // Especificando onde o caminho pode ser gravado/encontrado.
+                    string caminho_arquivo = Path.Combine(
 
-                    Environment.GetFolderPath(Environment.SpecialFolder.localApplicationData),
+                            // Especificando o caminho do diretório em que o arquivo pode ser gerado.
 
-                    // Dando um nome para o arquivo do Banco de Dados.
+                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 
-                    "db_tarefa.db3"
+                            // Especificando o nome que o arquivo terá.
 
-                );
+                            "database.db3"
 
-                this.database_connection = new SQLite_Database_Helper(caminho_arquivo);
+                        );
+
+                    // Acionando o método construtor da classe SQLite_Database_Helper.
+
+                    arquivo_database = new SQLite_Database_Helper(caminho_arquivo);
+
+                }
+
+                return arquivo_database;
 
             }
 
-            return this.database_connection;
-
         }
-
-    }
-
-    public partial class App : Application
-    {
 
         public App()
         {

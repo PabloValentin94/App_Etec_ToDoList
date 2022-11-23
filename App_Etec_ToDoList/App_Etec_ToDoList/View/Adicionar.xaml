@@ -2,13 +2,31 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App_Etec_ToDoList.View.Adicionar">
+
+    <ContentPage.ToolbarItems>
+
+        <ToolbarItem x:Name="btn_salvar" Text="Salvar"
+                     Order="Primary" Priority="0"
+                     Clicked="btn_salvar_Clicked"/>
+
+    </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
 
-        <StackLayout>
+        <StackLayout Margin="10" Spacing="10">
 
-            
-            
+            <Label Text="Nome:"/>
+            <Entry x:Name="txt_nome" Keyboard="Text"/>
+
+            <Label Text="Descrição:"/>
+            <Entry x:Name="txt_descricao" Keyboard="Text"/>
+
+            <Label Text="Matéria:"/>
+            <Entry x:Name="txt_materia" Keyboard="Text"/>
+
+            <Label Text="Data de Conclusão:"/>
+            <DatePicker x:Name="dtpck_data_conclusao" Format="dd/MM/yyyy"/>
+
         </StackLayout>
         
     </ContentPage.Content>

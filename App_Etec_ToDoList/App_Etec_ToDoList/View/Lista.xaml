@@ -5,20 +5,78 @@
 
     <ContentPage.ToolbarItems>
 
-        <ToolbarItem x:Name="btn_tema_claro" Text="Tema Claro"
-                     Order="Secondary" Priority="0"/>
+        <ToolbarItem x:Name="btn_adicionar" Text="Adicionar"
+                     Order="Primary" Priority="1"
+                     Clicked="btn_adicionar_Clicked"/>
 
-        <ToolbarItem x:Name="btn_tema_escuro" Text="Tema Escuro"
-                     Order="Secondary" Priority="1"/>
+        <ToolbarItem x:Name="btn_total_tarefas" Text="Total - Tarefas"
+                     Order="Primary" Priority="0"
+                     Clicked="btn_total_tarefas_Clicked"/>
 
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
 
-        <StackLayout>
-            
-            
-            
+        <StackLayout Margin="10">
+
+            <SearchBar x:Name="srcbar_tarefas" Placeholder="Digite aqui para pesquisar"
+                       PlaceholderColor="#808080"
+                       SearchButtonPressed="srcbar_tarefas_SearchButtonPressed"/>
+
+            <RefreshView x:Name="refv_carregamento" IsRefreshing="True">
+
+                <ListView x:Name="lstv_registros">
+
+                    <ListView.Header>
+                        
+                        <!--
+                        
+                            Auto: o tamanho se adequa ao conteúdo.
+                        
+                            *: divisão do espaço restante da interface em partes iguais.
+                        
+                        -->
+
+                        <Grid ColumnDefinitions="*, *, *, *">
+
+                            <Label Text="Nome:" Grid.Column = "0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Text="Descrição:" Grid.Column = "1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Text="Matéria:" Grid.Column = "2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Text="Conclusão:" Grid.Column = "3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                        </Grid>
+                        
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+
+                            <ViewCell>
+
+                                <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                                    <Label Grid.Column = "0" HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center" Text="{ Binding nome_tarefa }"/>
+                                    <Label Grid.Column = "1" HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center" Text="{ Binding descricao_tarefa }"/>
+                                    <Label Grid.Column = "2" HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center" Text="{ Binding materia_tarefa }"/>
+                                    <Label Grid.Column = "3" HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center" Text="{ Binding data_conclusao_tarefa, StringFormat='{}{0:dd/MM/yyyy}' }"/>
+
+                                </Grid>
+
+                            </ViewCell>
+                            
+                        </DataTemplate>
+                        
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
+                
+            </RefreshView>
+
         </StackLayout>
         
     </ContentPage.Content>

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-using System.Threading.Tasks;
-using SQLite;
-
 using App_Etec_ToDoList.Model;
+using SQLite;
+using System.Threading.Tasks; /* Threads permitem que o aplicativo execute tarefas assíncronas/parelelas,
+                               * ou seja, que ocorrem ao mesmo tempo que outras. */
 
 namespace App_Etec_ToDoList.Helper
 {
@@ -14,65 +14,77 @@ namespace App_Etec_ToDoList.Helper
     public class SQLite_Database_Helper
     {
 
-        SQLiteAsyncConnection conexao; // Criando uma variável de "conexao" com o SQLite.
+        /* connection: conexão.
+         * path: caminho. */
 
-        // Método construtor.
+        // Criando uma variável de conexão com o arquivo do database, do tipo somente leitura.
 
-        public SQLite_Database_Helper(string caminho_arquivo)
+        readonly SQLiteAsyncConnection _connection;
+
+        // Não é necessário criar um arquivo para o database, pois ele será gerado automaticamente.
+
+        public SQLite_Database_Helper(string path)
         {
 
-            // Criando uma "conexao" com o SQLite.
+            // Criando uma conexão com o arquivo do database.
 
-            conexao = new SQLiteAsyncConnection(caminho_arquivo);
+            _connection = new SQLiteAsyncConnection(path);
 
-            // Criando a tabela Tarefa.
+            /* No comando abaixo, a palavra Tarefa refere-se a um tipo, não a um nome. Não confunda.
+             * Esse comando cria uma tabela, e, o método Wait, faz com que o sistema espere a tabela ser criada
+             * para somente depois permitir o uso dos outros métodos da classe. */
 
-            conexao.CreateTableAsync<Tarefa>().Wait();
+            _connection.CreateTableAsync<Tarefa>().Wait();
 
         }
 
         public Task<int> Insert(Tarefa registro)
         {
 
-            // Adicionando um registro ao banco de dados.
+            // Inserindo um registro.
 
-            return conexao.InsertAsync(registro);
+            return _connection.InsertAsync(registro);
 
         }
 
         public void Update(Tarefa registro)
         {
 
-            string sql = "UPDATE Tarefa SET marcador = ?, descricao = ?, data_conclusao = ? WHERE id = ?";
+            // Criando uma variável que será um parâmetro à Query.
 
-            // Executando uma query (consulta.).
+            string sql = "UPDATE Tarefa SET nome_tarefa = ?, descricao_tarefa = ?, materia_tarefa = ?, " +
+                         "data_conclusao_tarefa = ? WHERE id_tarefa = ?";
 
-            conexao.QueryAsync<Tarefa>(sql, registro.marcador, registro.descricao, registro.data_conclusao, registro.id).Wait();
+            // Executando uma Query/operação.
+
+            _connection.QueryAsync<Tarefa>(sql, registro.nome_tarefa, registro.descricao_tarefa, registro.materia_tarefa, 
+                                           registro.data_conclusao_tarefa, registro.id_tarefa);
 
         }
 
         public Task<int> Delete(int id)
         {
 
-            // Removendo um registro do banco de dados.
+            /* Apagando todos os registros que tiverem a ID igual ao parâmetro do método Delete (Para fazer isso,
+             * usamos uma função Lambda.). */
 
-            return conexao.Table<Tarefa>().DeleteAsync(i => i.id == id);
+            return _connection.Table<Tarefa>().DeleteAsync(i => i.id_tarefa == id);
 
         }
 
         public Task<List<Tarefa>> Select()
         {
 
-            // Pegando todos os registros existentes dentro da tabela.
+            // Obtendo todas os registros existentes da tabela Tarefa.
 
-            return conexao.Table<Tarefa>().ToListAsync();
+            return _connection.Table<Tarefa>().ToListAsync();
 
         }
 
         /*public Task<Tarefa> SelectById(int id)
         {
 
-            return new Tarefa();
+
 
         }*/
 
