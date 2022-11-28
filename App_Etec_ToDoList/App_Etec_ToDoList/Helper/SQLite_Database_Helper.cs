@@ -47,7 +47,7 @@ namespace App_Etec_ToDoList.Helper
 
         }
 
-        public void Update(Tarefa registro)
+        public Task<List<Tarefa>> Update(Tarefa registro)
         {
 
             // Criando uma variável que será um parâmetro à Query.
@@ -57,7 +57,7 @@ namespace App_Etec_ToDoList.Helper
 
             // Executando uma Query/operação.
 
-            _connection.QueryAsync<Tarefa>(sql, registro.nome_tarefa, registro.descricao_tarefa, registro.materia_tarefa, 
+            return _connection.QueryAsync<Tarefa>(sql, registro.nome_tarefa, registro.descricao_tarefa, registro.materia_tarefa, 
                                            registro.data_conclusao_tarefa, registro.id_tarefa);
 
         }
@@ -81,12 +81,16 @@ namespace App_Etec_ToDoList.Helper
 
         }
 
-        /*public Task<Tarefa> SelectById(int id)
+        public Task<List<Tarefa>> SelectByName(string pesquisa)
         {
 
+            // Obtendo um registro específico da tabela Tarefa.
 
+            string sql = "SELECT * FROM Tarefa WHERE nome_tarefa LIKE '%" + pesquisa + "%'";
 
-        }*/
+            return _connection.QueryAsync<Tarefa>(sql);
+
+        }
 
     }
 

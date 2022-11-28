@@ -2,17 +2,33 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App_Etec_ToDoList.View.Editar">
-    
+
+    <ContentPage.ToolbarItems>
+
+        <ToolbarItem x:Name="btn_salvar" Text="Salvar"
+                     Order="Primary" Priority="0"
+                     Clicked="btn_salvar_Clicked"/>
+
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        
-        <StackLayout>
-            
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            
+
+        <StackLayout Margin="10" Spacing="10">
+
+            <Label Text="Nome:"/>
+            <Entry x:Name="txt_nome" Text="{ Binding nome_tarefa }" Keyboard="Text"/>
+
+            <Label Text="Descrição:"/>
+            <Entry x:Name="txt_descricao" Text="{ Binding descricao_tarefa }" Keyboard="Text"/>
+
+            <Label Text="Matéria:"/>
+            <Entry x:Name="txt_materia" Text="{ Binding materia_tarefa }" Keyboard="Text"/>
+
+            <Label Text="Data de Conclusão:"/>
+            <DatePicker x:Name="dtpck_data_conclusao" Date="{ Binding data_conclusao_tarefa }" Format="dd/MM/yyyy"/>
+
         </StackLayout>
-        
+
     </ContentPage.Content>
-    
+
 </ContentPage>

@@ -44,7 +44,7 @@ namespace App_Etec_ToDoList.View
 
                 await DisplayAlert("Operação concluída!", "Tarefa criada com sucesso.", "OK");
 
-                await Navigation.PopAsync();
+                await Navigation.PushAsync(new View.Lista());
 
             }
 

@@ -21,11 +21,11 @@
 
             <SearchBar x:Name="srcbar_tarefas" Placeholder="Digite aqui para pesquisar"
                        PlaceholderColor="#808080"
-                       SearchButtonPressed="srcbar_tarefas_SearchButtonPressed"/>
+                       TextChanged="srcbar_tarefas_TextChanged"/>
 
             <RefreshView x:Name="refv_carregamento" IsRefreshing="True">
 
-                <ListView x:Name="lstv_registros">
+                <ListView x:Name="lstv_registros" ItemSelected="lstv_registros_ItemSelected">
 
                     <ListView.Header>
                         
@@ -39,10 +39,10 @@
 
                         <Grid ColumnDefinitions="*, *, *, *">
 
-                            <Label Text="Nome:" Grid.Column = "0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                            <Label Text="Descrição:" Grid.Column = "1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                            <Label Text="Matéria:" Grid.Column = "2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                            <Label Text="Conclusão:" Grid.Column = "3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Text="Nome:" Grid.Column = "0" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                            <Label Text="Descrição:" Grid.Column = "1" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                            <Label Text="Matéria:" Grid.Column = "2" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                            <Label Text="Conclusão:" Grid.Column = "3" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
 
                         </Grid>
                         
@@ -54,7 +54,14 @@
 
                             <ViewCell>
 
-                                <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                                <ViewCell.ContextActions>
+
+                                    <MenuItem x:Name="btn_deletar" Text="Deletar"
+                                              Clicked="btn_deletar_Clicked"/>
+
+                                </ViewCell.ContextActions>
+
+                                <Grid ColumnDefinitions="*, *, *, *">
 
                                     <Label Grid.Column = "0" HorizontalTextAlignment="Start"
                                            VerticalTextAlignment="Center" Text="{ Binding nome_tarefa }"/>
